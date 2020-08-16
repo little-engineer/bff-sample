@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/items")
-class ItemListController {
+class ItemsController {
 
     @GetMapping("/{id}")
     @ResponseBody
