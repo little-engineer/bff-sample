@@ -1,17 +1,23 @@
 package com.example.bffsample.controller
 
 import com.example.bffsample.model.forfrontend.Task
+import com.example.bffsample.repository.TaskRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/tasks")
-class TasksController {
+class TasksController @Autowired constructor(val taskRepository: TaskRepository){
 
     @GetMapping("/{taskId}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun getItem(@PathVariable("taskId") taskId: Int): Task {
+    fun getTask(@PathVariable("taskId") taskId: Int): Task {
+
+        val task = taskRepository.getTask(taskId)
+        println(task)
+
         return Task(
                 taskId = taskId,
                 title = "タスクのタイトル",
