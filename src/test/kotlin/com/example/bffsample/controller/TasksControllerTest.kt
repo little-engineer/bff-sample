@@ -1,7 +1,7 @@
 package com.example.bffsample.controller
 
-import com.example.bffsample.model.externalapi.Task
-import com.example.bffsample.repository.TaskRepository
+import com.example.bffsample.model.forfrontend.Task
+import com.example.bffsample.service.TaskService
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.DisplayName
@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import java.util.*
 
 @WebMvcTest
 @DisplayName("TasksController")
@@ -22,7 +21,7 @@ internal class TasksControllerTest {
     lateinit var mockMvc: MockMvc
 
     @MockBean
-    lateinit var mockTaskRepository: TaskRepository
+    lateinit var mockTaskService: TaskService
 
     @Nested
     @DisplayName("getTask")
@@ -31,12 +30,12 @@ internal class TasksControllerTest {
         @DisplayName("should return task data when get task api is called with task id.")
         @Test
         fun getTask() {
-            given(mockTaskRepository.getTask(12345))
+            given(mockTaskService.getTask(12345))
                     .willReturn(Task(
-                            123456,
+                            12345,
                             "タスクのタイトル",
                             "タスクの詳細説明",
-                            Date())
+                            "タスク担当者A")
                     )
 
             mockMvc.perform(get("/tasks/12345"))
