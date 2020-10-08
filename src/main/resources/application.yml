@@ -1,0 +1,5 @@
+external:
+  task:
+    url: http://localhost:50000
+  user:
+    url: http://localhost:50001
