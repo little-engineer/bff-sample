@@ -3,3 +3,7 @@ external:
     url: http://localhost:50000
   user:
     url: http://localhost:50001
+
+logging:
+  file:
+    name: logs/myapp.log
