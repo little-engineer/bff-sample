@@ -6,6 +6,8 @@ import com.example.bffsample.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+const val UNKNOWN_USER_NAME: String = "unknown"
+
 @Service
 class TaskService @Autowired constructor(
         val taskRepository: TaskRepository,
@@ -19,6 +21,6 @@ class TaskService @Autowired constructor(
                 taskId = task?.taskId ?: 0,
                 title = task?.title ?: "",
                 description = task?.description ?: "",
-                userName = user?.userName ?: "unknown")
+                userName = user?.userName ?: UNKNOWN_USER_NAME)
     }
 }
