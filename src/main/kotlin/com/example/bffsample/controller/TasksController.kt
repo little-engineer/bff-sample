@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/tasks")
 class TasksController @Autowired constructor(
         val taskService: TaskService
-){
+) {
     private val log = LogFactory.getLog(TasksController::class.java)
 
     @GetMapping("/{taskId}")
@@ -21,5 +21,12 @@ class TasksController @Autowired constructor(
         log.info("getTask is called with taskId($taskId).")
 
         return taskService.getTask(taskId)
+    }
+
+    @PostMapping("/")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createTask(@RequestBody task: Task): Task {
+        return taskService.createTask(task)
     }
 }
