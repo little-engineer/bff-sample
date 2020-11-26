@@ -23,4 +23,19 @@ class TaskService @Autowired constructor(
                 description = task?.description ?: "",
                 userName = user?.userName ?: UNKNOWN_USER_NAME)
     }
+
+    fun createTask(task: Task): Task {
+        val postTask = taskRepository.postTask(
+                com.example.bffsample.model.externalapi.Task(
+                        title = task.title,
+                        description = task.description
+                )
+        )
+
+        return Task(
+                taskId = postTask?.taskId ?: 0,
+                title = postTask?.title ?: "",
+                description = postTask?.description ?: "",
+                userName = UNKNOWN_USER_NAME)
+    }
 }
