@@ -23,7 +23,7 @@ class TasksController @Autowired constructor(
         return taskService.getTask(taskId)
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     fun createTask(@RequestBody task: Task): Task {

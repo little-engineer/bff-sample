@@ -56,4 +56,33 @@ internal class TaskServiceTest {
             assertEquals("タスクの担当者A", actual.userName)
         }
     }
+
+    @Nested
+    @DisplayName("createTask")
+    inner class CreateTask {
+
+        @DisplayName("should return task data with new taskId when createTask function is called.")
+        @Test
+        fun createTask() {
+            given(mockTaskRepository.postTask(Task(title = "タスクのタイトル", description = "タスクの詳細説明")))
+                    .willReturn(Task(
+                            12345,
+                            "タスクのタイトル",
+                            "タスクの詳細説明",
+                            Date())
+                    )
+
+            val actual = taskService.createTask(
+                    com.example.bffsample.model.forfrontend.Task(
+                            taskId = null,
+                            title = "タスクのタイトル",
+                            description = "タスクの詳細説明",
+                            userName = ""))
+
+            assertEquals(12345, actual.taskId)
+            assertEquals("タスクのタイトル", actual.title)
+            assertEquals("タスクの詳細説明", actual.description)
+            assertEquals("unknown", actual.userName)
+        }
+    }
 }
