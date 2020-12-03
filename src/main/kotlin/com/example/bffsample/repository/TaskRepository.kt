@@ -27,7 +27,7 @@ class TaskRepository(restTemplateBuilder: RestTemplateBuilder) {
     }
 
     fun postTask(task: Task): Task? {
-        val uri = "$taskApiUrl/tasks/"
+        val uri = "$taskApiUrl/tasks"
 
         return restTemplate?.postForObject(uri, task, Task::class)
     }
