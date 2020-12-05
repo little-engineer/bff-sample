@@ -64,4 +64,21 @@ internal class TaskRepositoryTest {
         assertEquals("タスクの詳細説明", actual.description)
         assertNotNull(actual.created)
     }
+
+    @Test
+    @DisplayName("should be updated and return updated data when taskRepository call to PUT task to external Task-api.")
+    fun putTask() {
+        val task = Task(12345, "タスクのタイトル", "タスクの詳細説明", Date())
+        this.mockServer.expect(requestTo("$taskApiUrl/tasks/12345"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
+
+        val actual: Task = taskRepository.putTask(
+                12345, Task(title = "タスクのタイトル", description = "タスクの詳細説明")) ?: Task()
+
+        assertEquals(12345, actual.taskId)
+        assertEquals("タスクのタイトル",
+                actual.title)
+        assertEquals("タスクの詳細説明", actual.description)
+        assertNotNull(actual.created)
+    }
 }

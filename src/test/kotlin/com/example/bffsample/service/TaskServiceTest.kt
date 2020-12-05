@@ -85,4 +85,41 @@ internal class TaskServiceTest {
             assertEquals("unknown", actual.userName)
         }
     }
+
+    @Nested
+    @DisplayName("updateTask")
+    inner class UpdateTask {
+
+        @DisplayName("should be updated and return task data when updateTask function is called.")
+        @Test
+        fun updateTask() {
+            given(mockTaskRepository.putTask(12345, Task(title = "タスクのタイトル", description = "タスクの詳細説明")))
+                    .willReturn(Task(
+                            12345,
+                            "タスクのタイトル",
+                            "タスクの詳細説明",
+                            Date())
+                    )
+
+            given(mockUserRepository.getUser(12345))
+                    .willReturn(User(
+                            12345,
+                            "タスクの担当者A",
+                            Date())
+                    )
+
+            val actual = taskService.updateTask(
+                    12345,
+                    com.example.bffsample.model.forfrontend.Task(
+                            taskId = null,
+                            title = "タスクのタイトル",
+                            description = "タスクの詳細説明",
+                            userName = ""))
+
+            assertEquals(12345, actual.taskId)
+            assertEquals("タスクのタイトル", actual.title)
+            assertEquals("タスクの詳細説明", actual.description)
+            assertEquals("タスクの担当者A", actual.userName)
+        }
+    }
 }

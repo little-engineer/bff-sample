@@ -43,7 +43,6 @@ class TaskService @Autowired constructor(
         val putTask = taskRepository.putTask(
                 taskId,
                 com.example.bffsample.model.externalapi.Task(
-                        taskId = taskId,
                         title = task.title,
                         description = task.description
                 )
