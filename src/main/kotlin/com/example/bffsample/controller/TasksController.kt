@@ -29,4 +29,13 @@ class TasksController @Autowired constructor(
     fun createTask(@RequestBody task: Task): Task {
         return taskService.createTask(task)
     }
+
+    @PutMapping("/{taskId}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    fun updateTask(
+            @PathVariable("taskId") taskId: Int,
+            @RequestBody task: Task): Task {
+        return taskService.updateTask(taskId, task)
+    }
 }

@@ -38,4 +38,23 @@ class TaskService @Autowired constructor(
                 description = postTask?.description ?: "",
                 userName = UNKNOWN_USER_NAME)
     }
+
+    fun updateTask(taskId: Int, task: Task): Task {
+        val putTask = taskRepository.putTask(
+                taskId,
+                com.example.bffsample.model.externalapi.Task(
+                        taskId = taskId,
+                        title = task.title,
+                        description = task.description
+                )
+        )
+
+        val user = userRepository.getUser(taskId)
+
+        return Task(
+                taskId = putTask?.taskId ?: 0,
+                title = putTask?.title ?: "",
+                description = putTask?.description ?: "",
+                userName = user?.userName)
+    }
 }
