@@ -13,8 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest
@@ -80,6 +79,36 @@ internal class TasksControllerTest {
                     .andExpect(jsonPath("title").value("タスクのタイトル"))
                     .andExpect(jsonPath("description").value("タスクの詳細説明"))
                     .andExpect(jsonPath("userName").value("unknown"))
+        }
+    }
+
+    @Nested
+    @DisplayName("updateTask")
+    inner class UpdateTask {
+
+        @DisplayName("should return task data when update task api is called for existing item.")
+        @Test
+        fun updateTask() {
+            given(mockTaskService.updateTask(12345, Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)))
+                    .willReturn(Task(
+                            12345,
+                            "タスクのタイトル",
+                            "タスクの詳細説明",
+                            "タスク担当者A")
+                    )
+
+            val requestBody = Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)
+            val requestBodyJson = mapper.writeValueAsString(requestBody);
+
+            mockMvc.perform(
+                    put("/tasks/12345")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBodyJson))
+                    .andExpect(status().isOk)
+                    .andExpect(jsonPath("taskId").value(12345))
+                    .andExpect(jsonPath("title").value("タスクのタイトル"))
+                    .andExpect(jsonPath("description").value("タスクの詳細説明"))
+                    .andExpect(jsonPath("userName").value("タスク担当者A"))
         }
     }
 }
