@@ -10,9 +10,11 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
+import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
 import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 import java.util.*
 
@@ -80,5 +82,16 @@ internal class TaskRepositoryTest {
                 actual.title)
         assertEquals("タスクの詳細説明", actual.description)
         assertNotNull(actual.created)
+    }
+
+    @Test
+    @DisplayName("should be deleted and return no data when taskRepository call to DELETE task to external Task-api.")
+    fun deleteTask() {
+        this.mockServer.expect(requestTo("$taskApiUrl/tasks/12345"))
+                .andRespond(withStatus(HttpStatus.NO_CONTENT))
+
+        val actual = taskRepository.deleteTask(12345)
+
+        assertEquals(Unit, actual)
     }
 }
