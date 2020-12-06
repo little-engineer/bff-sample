@@ -56,4 +56,8 @@ class TaskService @Autowired constructor(
                 description = putTask?.description ?: "",
                 userName = user?.userName)
     }
+
+    fun deleteTask(taskId: Int) {
+        taskRepository.deleteTask(taskId)
+    }
 }

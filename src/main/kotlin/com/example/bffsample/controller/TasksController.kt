@@ -38,4 +38,10 @@ class TasksController @Autowired constructor(
             @RequestBody task: Task): Task {
         return taskService.updateTask(taskId, task)
     }
+
+    @DeleteMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteTask(@PathVariable("taskId") taskId: Int) {
+        taskService.deleteTask(taskId)
+    }
 }
