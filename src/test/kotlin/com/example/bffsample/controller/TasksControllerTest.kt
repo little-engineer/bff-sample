@@ -111,4 +111,19 @@ internal class TasksControllerTest {
                     .andExpect(jsonPath("userName").value("タスク担当者A"))
         }
     }
+
+    @Nested
+    @DisplayName("deleteTask")
+    inner class DeleteTask {
+
+        @DisplayName("should return HttpStatus 204 with no body when delete task api is called for existing item.")
+        @Test
+        fun deleteTask() {
+            given(mockTaskService.deleteTask(12345)).will { }
+
+            mockMvc.perform(delete("/tasks/12345"))
+                    .andExpect(status().isNoContent)
+                    .andExpect(content().string(""))
+        }
+    }
 }

@@ -122,4 +122,19 @@ internal class TaskServiceTest {
             assertEquals("タスクの担当者A", actual.userName)
         }
     }
+
+    @Nested
+    @DisplayName("deleteTask")
+    inner class DeleteTask {
+
+        @DisplayName("should return no data when deleteTask function is called with task id.")
+        @Test
+        fun getTask() {
+            given(mockTaskRepository.deleteTask(12345)).will { }
+
+            val actual = taskService.deleteTask(12345)
+
+            assertEquals(Unit, actual)
+        }
+    }
 }
