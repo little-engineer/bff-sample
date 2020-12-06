@@ -46,4 +46,9 @@ class TaskRepository(restTemplateBuilder: RestTemplateBuilder) {
 
         return responseEntity?.body
     }
+
+    fun deleteTask(taskId: Int) {
+        val uri = "$taskApiUrl/tasks/$taskId"
+        restTemplate?.delete(uri)
+    }
 }
