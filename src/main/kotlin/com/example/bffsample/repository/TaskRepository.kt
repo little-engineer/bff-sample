@@ -5,24 +5,28 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
-import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import org.springframework.web.client.getForObject
 import org.springframework.web.client.postForObject
+import java.time.Duration
 
 @Repository
-class TaskRepository(restTemplateBuilder: RestTemplateBuilder) {
-
-    @Value("\${external.task.url}")
-    val taskApiUrl: String = ""
-
+class TaskRepository(
+        restTemplateBuilder: RestTemplateBuilder,
+        @Value("\${external.task.url}") private val taskApiUrl: String = "",
+        @Value("\${external.task.connect-timeout-millis}") private val connectTimeoutMillis: Long,
+        @Value("\${external.task.read-timeout-millis}") private val readTimeoutMillis: Long
+) {
     private var restTemplate: RestTemplate? = null
 
     init {
-        restTemplate = restTemplateBuilder.build()
+        restTemplate = restTemplateBuilder
+                .setConnectTimeout(Duration.ofMillis(connectTimeoutMillis))
+                .setReadTimeout(Duration.ofMillis(readTimeoutMillis))
+                .build()
     }
 
     fun getTask(taskId: Int): Task? {
