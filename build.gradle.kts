@@ -24,6 +24,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+
+    // for change http client of RestTemplate
+    implementation(group = "org.apache.httpcomponents", name = "httpclient")
 }
 
 tasks.withType<Test> {
