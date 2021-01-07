@@ -1,16 +1,16 @@
 package com.example.bffsample.repository
 
 import com.example.bffsample.model.externalapi.Task
+import org.apache.http.conn.ConnectTimeoutException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Repository
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.exchange
-import org.springframework.web.client.getForObject
-import org.springframework.web.client.postForObject
+import org.springframework.web.client.*
 import java.time.Duration
 
 @Repository
@@ -29,18 +29,33 @@ class TaskRepository(
                 .build()
     }
 
+    @Retryable(
+            value = [ConnectTimeoutException::class],
+            maxAttempts = 3,
+            backoff = Backoff(value = 500)
+    )
     fun getTask(taskId: Int): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
 
         return restTemplate?.getForObject(uri, Task::class)
     }
 
+    @Retryable(
+            value = [ConnectTimeoutException::class],
+            maxAttempts = 3,
+            backoff = Backoff(value = 500)
+    )
     fun postTask(task: Task): Task? {
         val uri = "$taskApiUrl/tasks"
 
         return restTemplate?.postForObject(uri, task, Task::class)
     }
 
+    @Retryable(
+            value = [ConnectTimeoutException::class],
+            maxAttempts = 3,
+            backoff = Backoff(value = 500)
+    )
     fun putTask(taskId: Int, task: Task): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
 
@@ -51,6 +66,11 @@ class TaskRepository(
         return responseEntity?.body
     }
 
+    @Retryable(
+            value = [ConnectTimeoutException::class],
+            maxAttempts = 3,
+            backoff = Backoff(value = 500)
+    )
     fun deleteTask(taskId: Int) {
         val uri = "$taskApiUrl/tasks/$taskId"
         restTemplate?.delete(uri)

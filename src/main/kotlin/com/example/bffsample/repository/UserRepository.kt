@@ -1,8 +1,11 @@
 package com.example.bffsample.repository
 
 import com.example.bffsample.model.externalapi.User
+import org.apache.http.conn.ConnectTimeoutException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
@@ -25,6 +28,11 @@ class UserRepository(
                 .build()
     }
 
+    @Retryable(
+            value = [ConnectTimeoutException::class],
+            maxAttempts = 3,
+            backoff = Backoff(value = 500)
+    )
     fun getUser(userId: Int): User? {
         val uri = "$userApiUrl/users/$userId"
 
