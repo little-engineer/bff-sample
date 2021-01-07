@@ -27,6 +27,10 @@ dependencies {
 
     // for change http client of RestTemplate
     implementation(group = "org.apache.httpcomponents", name = "httpclient")
+
+    // for retry of external api call.
+    implementation("org.springframework.retry:spring-retry")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 }
 
 tasks.withType<Test> {
