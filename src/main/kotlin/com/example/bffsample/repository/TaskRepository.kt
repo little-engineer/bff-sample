@@ -31,8 +31,8 @@ class TaskRepository(
 
     @Retryable(
             value = [ConnectTimeoutException::class],
-            maxAttempts = 3,
-            backoff = Backoff(value = 500)
+            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun getTask(taskId: Int): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
@@ -42,8 +42,8 @@ class TaskRepository(
 
     @Retryable(
             value = [ConnectTimeoutException::class],
-            maxAttempts = 3,
-            backoff = Backoff(value = 500)
+            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun postTask(task: Task): Task? {
         val uri = "$taskApiUrl/tasks"
@@ -53,8 +53,8 @@ class TaskRepository(
 
     @Retryable(
             value = [ConnectTimeoutException::class],
-            maxAttempts = 3,
-            backoff = Backoff(value = 500)
+            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun putTask(taskId: Int, task: Task): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
@@ -68,8 +68,8 @@ class TaskRepository(
 
     @Retryable(
             value = [ConnectTimeoutException::class],
-            maxAttempts = 3,
-            backoff = Backoff(value = 500)
+            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun deleteTask(taskId: Int) {
         val uri = "$taskApiUrl/tasks/$taskId"

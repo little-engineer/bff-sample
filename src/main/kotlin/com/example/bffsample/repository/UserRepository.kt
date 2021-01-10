@@ -30,8 +30,8 @@ class UserRepository(
 
     @Retryable(
             value = [ConnectTimeoutException::class],
-            maxAttempts = 3,
-            backoff = Backoff(value = 500)
+            maxAttemptsExpression = "#{\${external.user.connect-retry-attempts}}",
+            backoff = Backoff(delayExpression = "#{\${external.user.connect-retry-interval-millis}}")
     )
     fun getUser(userId: Int): User? {
         val uri = "$userApiUrl/users/$userId"
