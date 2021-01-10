@@ -3,10 +3,15 @@ external:
     url: http://localhost:50000
     read-timeout-millis: 3000
     connect-timeout-millis: 1000
+    connect-retry-attempts: 3
+    connect-retry-interval-millis: 500
+
   user:
     url: http://localhost:50001
     read-timeout-millis: 3000
     connect-timeout-millis: 1000
+    connect-retry-attempts: 3
+    connect-retry-interval-millis: 500
 
 logging:
   file:
