@@ -9,5 +9,4 @@ class BffSampleApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

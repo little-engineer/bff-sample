@@ -34,18 +34,22 @@ internal class TaskServiceTest {
         @Test
         fun getTask() {
             given(mockTaskRepository.getTask(12345))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    Date())
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        Date()
+                    )
                 )
 
             given(mockUserRepository.getUser(1))
-                .willReturn(User(
-                    1,
-                    "タスクの担当者A",
-                    Date())
+                .willReturn(
+                    User(
+                        1,
+                        "タスクの担当者A",
+                        Date()
+                    )
                 )
 
             val actual = taskService.getTask(12345)
@@ -65,11 +69,13 @@ internal class TaskServiceTest {
         @Test
         fun createTask() {
             given(mockTaskRepository.postTask(Task(title = "タスクのタイトル", description = "タスクの詳細説明")))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    Date())
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        Date()
+                    )
                 )
 
             val actual = taskService.createTask(
@@ -77,7 +83,9 @@ internal class TaskServiceTest {
                     taskId = null,
                     title = "タスクのタイトル",
                     description = "タスクの詳細説明",
-                    userName = ""))
+                    userName = ""
+                )
+            )
 
             assertEquals(12345, actual.taskId)
             assertEquals("タスクのタイトル", actual.title)
@@ -94,18 +102,22 @@ internal class TaskServiceTest {
         @Test
         fun updateTask() {
             given(mockTaskRepository.putTask(12345, Task(title = "タスクのタイトル", description = "タスクの詳細説明")))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    Date())
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        Date()
+                    )
                 )
 
             given(mockUserRepository.getUser(12345))
-                .willReturn(User(
-                    12345,
-                    "タスクの担当者A",
-                    Date())
+                .willReturn(
+                    User(
+                        12345,
+                        "タスクの担当者A",
+                        Date()
+                    )
                 )
 
             val actual = taskService.updateTask(
@@ -114,7 +126,9 @@ internal class TaskServiceTest {
                     taskId = null,
                     title = "タスクのタイトル",
                     description = "タスクの詳細説明",
-                    userName = ""))
+                    userName = ""
+                )
+            )
 
             assertEquals(12345, actual.taskId)
             assertEquals("タスクのタイトル", actual.title)

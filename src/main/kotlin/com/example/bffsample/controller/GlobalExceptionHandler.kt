@@ -11,7 +11,6 @@ import org.springframework.web.client.ResourceAccessException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import javax.servlet.http.HttpServletRequest
 
-
 @RestControllerAdvice
 class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     private val log = LogFactory.getLog(GlobalExceptionHandler::class.java)

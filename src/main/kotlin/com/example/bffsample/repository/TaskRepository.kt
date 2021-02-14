@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Repository
-import org.springframework.web.client.*
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.exchange
+import org.springframework.web.client.getForObject
+import org.springframework.web.client.postForObject
 import java.time.Duration
 
 @Repository

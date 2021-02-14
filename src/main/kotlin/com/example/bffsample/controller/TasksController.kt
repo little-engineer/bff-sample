@@ -35,7 +35,8 @@ class TasksController @Autowired constructor(
     @ResponseStatus(HttpStatus.OK)
     fun updateTask(
         @PathVariable("taskId") taskId: Int,
-        @RequestBody task: Task): Task {
+        @RequestBody task: Task
+    ): Task {
         return taskService.updateTask(taskId, task)
     }
 

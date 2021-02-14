@@ -4,7 +4,6 @@ import com.example.bffsample.model.forfrontend.Task
 import com.example.bffsample.service.TaskService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.mockito.BDDMockito.given
@@ -13,8 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
 @WebMvcTest
 @DisplayName("TasksController")
@@ -36,11 +40,13 @@ internal class TasksControllerTest {
         @Test
         fun getTask() {
             given(mockTaskService.getTask(12345))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    "タスク担当者A")
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        "タスク担当者A"
+                    )
                 )
 
             mockMvc.perform(get("/tasks/12345"))
@@ -60,15 +66,17 @@ internal class TasksControllerTest {
         @Test
         fun createTask() {
             given(mockTaskService.createTask(Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    "unknown")
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        "unknown"
+                    )
                 )
 
             val requestBody = Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)
-            val requestBodyJson = mapper.writeValueAsString(requestBody);
+            val requestBodyJson = mapper.writeValueAsString(requestBody)
 
             mockMvc.perform(
                 post("/tasks")
@@ -90,15 +98,17 @@ internal class TasksControllerTest {
         @Test
         fun updateTask() {
             given(mockTaskService.updateTask(12345, Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)))
-                .willReturn(Task(
-                    12345,
-                    "タスクのタイトル",
-                    "タスクの詳細説明",
-                    "タスク担当者A")
+                .willReturn(
+                    Task(
+                        12345,
+                        "タスクのタイトル",
+                        "タスクの詳細説明",
+                        "タスク担当者A"
+                    )
                 )
 
             val requestBody = Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)
-            val requestBodyJson = mapper.writeValueAsString(requestBody);
+            val requestBodyJson = mapper.writeValueAsString(requestBody)
 
             mockMvc.perform(
                 put("/tasks/12345")

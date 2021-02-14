@@ -11,7 +11,8 @@ const val UNKNOWN_USER_NAME: String = "unknown"
 @Service
 class TaskService @Autowired constructor(
     val taskRepository: TaskRepository,
-    val userRepository: UserRepository) {
+    val userRepository: UserRepository
+) {
 
     fun getTask(taskId: Int): Task {
         val task = taskRepository.getTask(taskId)
@@ -21,7 +22,8 @@ class TaskService @Autowired constructor(
             taskId = task?.taskId ?: 0,
             title = task?.title ?: "",
             description = task?.description ?: "",
-            userName = user?.userName ?: UNKNOWN_USER_NAME)
+            userName = user?.userName ?: UNKNOWN_USER_NAME
+        )
     }
 
     fun createTask(task: Task): Task {
@@ -36,7 +38,8 @@ class TaskService @Autowired constructor(
             taskId = postTask?.taskId ?: 0,
             title = postTask?.title ?: "",
             description = postTask?.description ?: "",
-            userName = UNKNOWN_USER_NAME)
+            userName = UNKNOWN_USER_NAME
+        )
     }
 
     fun updateTask(taskId: Int, task: Task): Task {
@@ -54,7 +57,8 @@ class TaskService @Autowired constructor(
             taskId = putTask?.taskId ?: 0,
             title = putTask?.title ?: "",
             description = putTask?.description ?: "",
-            userName = user?.userName)
+            userName = user?.userName
+        )
     }
 
     fun deleteTask(taskId: Int) {

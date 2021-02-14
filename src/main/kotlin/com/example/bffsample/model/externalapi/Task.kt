@@ -1,6 +1,6 @@
 package com.example.bffsample.model.externalapi
 
-import java.util.*
+import java.util.Date
 
 data class Task(
     val taskId: Int? = null,
