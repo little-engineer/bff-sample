@@ -64,7 +64,8 @@ class TaskRepository(
 
         val requestEntity = HttpEntity<Task>(task)
         val responseEntity: ResponseEntity<Task>? = restTemplate?.exchange(
-            uri, HttpMethod.PUT, requestEntity, Task::class)
+            uri, HttpMethod.PUT, requestEntity, Task::class
+        )
 
         return responseEntity?.body
     }

@@ -12,13 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
 @DisplayName("TasksController")
@@ -81,7 +81,8 @@ internal class TasksControllerTest {
             mockMvc.perform(
                 post("/tasks")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(requestBodyJson))
+                    .content(requestBodyJson)
+            )
                 .andExpect(status().isCreated)
                 .andExpect(jsonPath("taskId").value(12345))
                 .andExpect(jsonPath("title").value("タスクのタイトル"))
@@ -113,7 +114,8 @@ internal class TasksControllerTest {
             mockMvc.perform(
                 put("/tasks/12345")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(requestBodyJson))
+                    .content(requestBodyJson)
+            )
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("taskId").value(12345))
                 .andExpect(jsonPath("title").value("タスクのタイトル"))
