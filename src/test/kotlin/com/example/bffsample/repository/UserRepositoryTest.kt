@@ -1,20 +1,19 @@
 package com.example.bffsample.repository
 
-import com.example.bffsample.model.externalapi.Task
 import com.example.bffsample.model.externalapi.User
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers
 import org.springframework.test.web.client.response.MockRestResponseCreators
-import java.util.*
+import java.util.Date
 
 @RestClientTest(UserRepository::class)
 @DisplayName("UserRepository")
@@ -38,7 +37,7 @@ internal class UserRepositoryTest {
         fun getUser() {
             val user = User(1, "タスクの管理者A", Date())
             mockServer.expect(MockRestRequestMatchers.requestTo("http://localhost:50001/users/1"))
-                    .andRespond(MockRestResponseCreators.withSuccess(objectMapper.writeValueAsString(user), MediaType.APPLICATION_JSON))
+                .andRespond(MockRestResponseCreators.withSuccess(objectMapper.writeValueAsString(user), MediaType.APPLICATION_JSON))
 
             val actual = userRepository.getUser(1) ?: User()
 

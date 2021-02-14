@@ -10,51 +10,55 @@ const val UNKNOWN_USER_NAME: String = "unknown"
 
 @Service
 class TaskService @Autowired constructor(
-        val taskRepository: TaskRepository,
-        val userRepository: UserRepository) {
+    val taskRepository: TaskRepository,
+    val userRepository: UserRepository
+) {
 
     fun getTask(taskId: Int): Task {
         val task = taskRepository.getTask(taskId)
         val user = userRepository.getUser(1)
 
         return Task(
-                taskId = task?.taskId ?: 0,
-                title = task?.title ?: "",
-                description = task?.description ?: "",
-                userName = user?.userName ?: UNKNOWN_USER_NAME)
+            taskId = task?.taskId ?: 0,
+            title = task?.title ?: "",
+            description = task?.description ?: "",
+            userName = user?.userName ?: UNKNOWN_USER_NAME
+        )
     }
 
     fun createTask(task: Task): Task {
         val postTask = taskRepository.postTask(
-                com.example.bffsample.model.externalapi.Task(
-                        title = task.title,
-                        description = task.description
-                )
+            com.example.bffsample.model.externalapi.Task(
+                title = task.title,
+                description = task.description
+            )
         )
 
         return Task(
-                taskId = postTask?.taskId ?: 0,
-                title = postTask?.title ?: "",
-                description = postTask?.description ?: "",
-                userName = UNKNOWN_USER_NAME)
+            taskId = postTask?.taskId ?: 0,
+            title = postTask?.title ?: "",
+            description = postTask?.description ?: "",
+            userName = UNKNOWN_USER_NAME
+        )
     }
 
     fun updateTask(taskId: Int, task: Task): Task {
         val putTask = taskRepository.putTask(
-                taskId,
-                com.example.bffsample.model.externalapi.Task(
-                        title = task.title,
-                        description = task.description
-                )
+            taskId,
+            com.example.bffsample.model.externalapi.Task(
+                title = task.title,
+                description = task.description
+            )
         )
 
         val user = userRepository.getUser(taskId)
 
         return Task(
-                taskId = putTask?.taskId ?: 0,
-                title = putTask?.title ?: "",
-                description = putTask?.description ?: "",
-                userName = user?.userName)
+            taskId = putTask?.taskId ?: 0,
+            title = putTask?.title ?: "",
+            description = putTask?.description ?: "",
+            userName = user?.userName
+        )
     }
 
     fun deleteTask(taskId: Int) {

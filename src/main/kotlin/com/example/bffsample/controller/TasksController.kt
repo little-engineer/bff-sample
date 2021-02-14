@@ -5,12 +5,21 @@ import com.example.bffsample.service.TaskService
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/tasks")
 class TasksController @Autowired constructor(
-        val taskService: TaskService
+    val taskService: TaskService
 ) {
     private val log = LogFactory.getLog(TasksController::class.java)
 
@@ -34,8 +43,9 @@ class TasksController @Autowired constructor(
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     fun updateTask(
-            @PathVariable("taskId") taskId: Int,
-            @RequestBody task: Task): Task {
+        @PathVariable("taskId") taskId: Int,
+        @RequestBody task: Task
+    ): Task {
         return taskService.updateTask(taskId, task)
     }
 

@@ -10,29 +10,32 @@ import org.springframework.http.ResponseEntity
 import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Repository
-import org.springframework.web.client.*
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.exchange
+import org.springframework.web.client.getForObject
+import org.springframework.web.client.postForObject
 import java.time.Duration
 
 @Repository
 class TaskRepository(
-        restTemplateBuilder: RestTemplateBuilder,
-        @Value("\${external.task.url}") private val taskApiUrl: String = "",
-        @Value("\${external.task.connect-timeout-millis}") private val connectTimeoutMillis: Long,
-        @Value("\${external.task.read-timeout-millis}") private val readTimeoutMillis: Long
+    restTemplateBuilder: RestTemplateBuilder,
+    @Value("\${external.task.url}") private val taskApiUrl: String = "",
+    @Value("\${external.task.connect-timeout-millis}") private val connectTimeoutMillis: Long,
+    @Value("\${external.task.read-timeout-millis}") private val readTimeoutMillis: Long
 ) {
     private var restTemplate: RestTemplate? = null
 
     init {
         restTemplate = restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(connectTimeoutMillis))
-                .setReadTimeout(Duration.ofMillis(readTimeoutMillis))
-                .build()
+            .setConnectTimeout(Duration.ofMillis(connectTimeoutMillis))
+            .setReadTimeout(Duration.ofMillis(readTimeoutMillis))
+            .build()
     }
 
     @Retryable(
-            value = [ConnectTimeoutException::class],
-            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
-            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
+        value = [ConnectTimeoutException::class],
+        maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+        backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun getTask(taskId: Int): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
@@ -41,9 +44,9 @@ class TaskRepository(
     }
 
     @Retryable(
-            value = [ConnectTimeoutException::class],
-            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
-            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
+        value = [ConnectTimeoutException::class],
+        maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+        backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun postTask(task: Task): Task? {
         val uri = "$taskApiUrl/tasks"
@@ -52,24 +55,25 @@ class TaskRepository(
     }
 
     @Retryable(
-            value = [ConnectTimeoutException::class],
-            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
-            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
+        value = [ConnectTimeoutException::class],
+        maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+        backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun putTask(taskId: Int, task: Task): Task? {
         val uri = "$taskApiUrl/tasks/$taskId"
 
         val requestEntity = HttpEntity<Task>(task)
         val responseEntity: ResponseEntity<Task>? = restTemplate?.exchange(
-                uri, HttpMethod.PUT, requestEntity, Task::class)
+            uri, HttpMethod.PUT, requestEntity, Task::class
+        )
 
         return responseEntity?.body
     }
 
     @Retryable(
-            value = [ConnectTimeoutException::class],
-            maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
-            backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
+        value = [ConnectTimeoutException::class],
+        maxAttemptsExpression = "#{\${external.task.connect-retry-attempts}}",
+        backoff = Backoff(delayExpression = "#{\${external.task.connect-retry-interval-millis}}")
     )
     fun deleteTask(taskId: Int) {
         val uri = "$taskApiUrl/tasks/$taskId"
