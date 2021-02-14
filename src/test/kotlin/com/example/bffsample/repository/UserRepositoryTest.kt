@@ -38,7 +38,7 @@ internal class UserRepositoryTest {
         fun getUser() {
             val user = User(1, "タスクの管理者A", Date())
             mockServer.expect(MockRestRequestMatchers.requestTo("http://localhost:50001/users/1"))
-                    .andRespond(MockRestResponseCreators.withSuccess(objectMapper.writeValueAsString(user), MediaType.APPLICATION_JSON))
+                .andRespond(MockRestResponseCreators.withSuccess(objectMapper.writeValueAsString(user), MediaType.APPLICATION_JSON))
 
             val actual = userRepository.getUser(1) ?: User()
 

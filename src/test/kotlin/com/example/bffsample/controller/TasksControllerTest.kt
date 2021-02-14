@@ -36,19 +36,19 @@ internal class TasksControllerTest {
         @Test
         fun getTask() {
             given(mockTaskService.getTask(12345))
-                    .willReturn(Task(
-                            12345,
-                            "タスクのタイトル",
-                            "タスクの詳細説明",
-                            "タスク担当者A")
-                    )
+                .willReturn(Task(
+                    12345,
+                    "タスクのタイトル",
+                    "タスクの詳細説明",
+                    "タスク担当者A")
+                )
 
             mockMvc.perform(get("/tasks/12345"))
-                    .andExpect(status().isOk)
-                    .andExpect(jsonPath("taskId").value(12345))
-                    .andExpect(jsonPath("title").value("タスクのタイトル"))
-                    .andExpect(jsonPath("description").value("タスクの詳細説明"))
-                    .andExpect(jsonPath("userName").value("タスク担当者A"))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("taskId").value(12345))
+                .andExpect(jsonPath("title").value("タスクのタイトル"))
+                .andExpect(jsonPath("description").value("タスクの詳細説明"))
+                .andExpect(jsonPath("userName").value("タスク担当者A"))
         }
     }
 
@@ -60,25 +60,25 @@ internal class TasksControllerTest {
         @Test
         fun createTask() {
             given(mockTaskService.createTask(Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)))
-                    .willReturn(Task(
-                            12345,
-                            "タスクのタイトル",
-                            "タスクの詳細説明",
-                            "unknown")
-                    )
+                .willReturn(Task(
+                    12345,
+                    "タスクのタイトル",
+                    "タスクの詳細説明",
+                    "unknown")
+                )
 
             val requestBody = Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)
             val requestBodyJson = mapper.writeValueAsString(requestBody);
 
             mockMvc.perform(
-                    post("/tasks")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBodyJson))
-                    .andExpect(status().isCreated)
-                    .andExpect(jsonPath("taskId").value(12345))
-                    .andExpect(jsonPath("title").value("タスクのタイトル"))
-                    .andExpect(jsonPath("description").value("タスクの詳細説明"))
-                    .andExpect(jsonPath("userName").value("unknown"))
+                post("/tasks")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestBodyJson))
+                .andExpect(status().isCreated)
+                .andExpect(jsonPath("taskId").value(12345))
+                .andExpect(jsonPath("title").value("タスクのタイトル"))
+                .andExpect(jsonPath("description").value("タスクの詳細説明"))
+                .andExpect(jsonPath("userName").value("unknown"))
         }
     }
 
@@ -90,25 +90,25 @@ internal class TasksControllerTest {
         @Test
         fun updateTask() {
             given(mockTaskService.updateTask(12345, Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)))
-                    .willReturn(Task(
-                            12345,
-                            "タスクのタイトル",
-                            "タスクの詳細説明",
-                            "タスク担当者A")
-                    )
+                .willReturn(Task(
+                    12345,
+                    "タスクのタイトル",
+                    "タスクの詳細説明",
+                    "タスク担当者A")
+                )
 
             val requestBody = Task(taskId = null, title = "タスクのタイトル", description = "タスクの詳細説明", userName = null)
             val requestBodyJson = mapper.writeValueAsString(requestBody);
 
             mockMvc.perform(
-                    put("/tasks/12345")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBodyJson))
-                    .andExpect(status().isOk)
-                    .andExpect(jsonPath("taskId").value(12345))
-                    .andExpect(jsonPath("title").value("タスクのタイトル"))
-                    .andExpect(jsonPath("description").value("タスクの詳細説明"))
-                    .andExpect(jsonPath("userName").value("タスク担当者A"))
+                put("/tasks/12345")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestBodyJson))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("taskId").value(12345))
+                .andExpect(jsonPath("title").value("タスクのタイトル"))
+                .andExpect(jsonPath("description").value("タスクの詳細説明"))
+                .andExpect(jsonPath("userName").value("タスク担当者A"))
         }
     }
 
@@ -122,8 +122,8 @@ internal class TasksControllerTest {
             given(mockTaskService.deleteTask(12345)).will { }
 
             mockMvc.perform(delete("/tasks/12345"))
-                    .andExpect(status().isNoContent)
-                    .andExpect(content().string(""))
+                .andExpect(status().isNoContent)
+                .andExpect(content().string(""))
         }
     }
 }

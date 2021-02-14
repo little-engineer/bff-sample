@@ -40,7 +40,7 @@ internal class TaskRepositoryTest {
     fun getTask() {
         val task = Task(12345, "タスクのタイトル", "タスクの詳細説明", Date())
         this.mockServer.expect(requestTo("$taskApiUrl/tasks/12345"))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
+            .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
 
         val actual = taskRepository.getTask(12345) ?: Task()
 
@@ -55,14 +55,14 @@ internal class TaskRepositoryTest {
     fun postTask() {
         val task = Task(12345, "タスクのタイトル", "タスクの詳細説明", Date())
         this.mockServer.expect(requestTo("$taskApiUrl/tasks"))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
+            .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
 
         val actual: Task = taskRepository.postTask(
-                Task(title = "タスクのタイトル", description = "タスクの詳細説明")) ?: Task()
+            Task(title = "タスクのタイトル", description = "タスクの詳細説明")) ?: Task()
 
         assertEquals(12345, actual.taskId)
         assertEquals("タスクのタイトル",
-                actual.title)
+            actual.title)
         assertEquals("タスクの詳細説明", actual.description)
         assertNotNull(actual.created)
     }
@@ -72,14 +72,14 @@ internal class TaskRepositoryTest {
     fun putTask() {
         val task = Task(12345, "タスクのタイトル", "タスクの詳細説明", Date())
         this.mockServer.expect(requestTo("$taskApiUrl/tasks/12345"))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
+            .andRespond(withSuccess(objectMapper.writeValueAsString(task), MediaType.APPLICATION_JSON))
 
         val actual: Task = taskRepository.putTask(
-                12345, Task(title = "タスクのタイトル", description = "タスクの詳細説明")) ?: Task()
+            12345, Task(title = "タスクのタイトル", description = "タスクの詳細説明")) ?: Task()
 
         assertEquals(12345, actual.taskId)
         assertEquals("タスクのタイトル",
-                actual.title)
+            actual.title)
         assertEquals("タスクの詳細説明", actual.description)
         assertNotNull(actual.created)
     }
@@ -88,7 +88,7 @@ internal class TaskRepositoryTest {
     @DisplayName("should be deleted and return no data when taskRepository call to DELETE task to external Task-api.")
     fun deleteTask() {
         this.mockServer.expect(requestTo("$taskApiUrl/tasks/12345"))
-                .andRespond(withStatus(HttpStatus.NO_CONTENT))
+            .andRespond(withStatus(HttpStatus.NO_CONTENT))
 
         val actual = taskRepository.deleteTask(12345)
 
