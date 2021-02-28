@@ -1,4 +1,4 @@
-name: Build
+name: CI
 
 #############################
 # Start the job on all push #
@@ -11,23 +11,21 @@ on: push
 #   pull_request:
 #     branches: [master]
 
-###############
-# Set the Job #
-###############
+################
+# Set the Jobs #
+################
 jobs:
+
+  #################
+  # Set build Job #
+  #################
   build:
     # Name the Job
     name: Build by Gradle
     # Set the agent to run on
     runs-on: ubuntu-latest
 
-    ##################
-    # Load all steps #
-    ##################
     steps:
-      ##########################
-      # Checkout the code base #
-      ##########################
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
@@ -43,26 +41,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      ################################
-      # Run UnitTest                 #
-      ################################
-      - name: Build with Gradle
-        run: ./gradlew test
-
-
+  #################
+  # Set Lint Job #
+  #################
   lint:
     # Name the Job
     name: Lint
     # Set the agent to run on
     runs-on: ubuntu-latest
 
-    ##################
-    # Load all steps #
-    ##################
     steps:
-      ##########################
-      # Checkout the code base #
-      ##########################
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
