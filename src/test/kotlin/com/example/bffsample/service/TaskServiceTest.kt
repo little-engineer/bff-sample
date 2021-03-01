@@ -12,7 +12,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import java.util.Date
+import java.util.*
 
 @SpringBootTest
 @DisplayName("TasksService")
@@ -58,6 +58,9 @@ internal class TaskServiceTest {
             assertEquals("タスクのタイトル", actual.title)
             assertEquals("タスクの詳細説明", actual.description)
             assertEquals("タスクの担当者A", actual.userName)
+
+            // for ng test
+            assertEquals(true, false)
         }
     }
 
