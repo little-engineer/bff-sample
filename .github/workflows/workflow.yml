@@ -40,7 +40,12 @@ jobs:
           java-version: 11
       - name: Build with Gradle
         run: ./gradlew build
-
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: UnitTest report
+          path: build/reports/tests/test
+ 
   #################
   # Set Lint Job #
   #################
