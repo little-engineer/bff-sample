@@ -38,13 +38,19 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+          
       - name: Build with Gradle
-        run: ./gradlew build
-      - name: Archive production artifacts
+        run: ./gradlew build jacocoTestReport
+      - name: Archive unit test results
         uses: actions/upload-artifact@v2
         with:
-          name: UnitTest report
+          name: unit-test-report
           path: build/reports/tests/test
+      - name: Archive coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: build/reports/jacoco/test/html
  
   #################
   # Set Lint Job #
